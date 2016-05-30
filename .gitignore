@@ -7,4 +7,6 @@ target
 /.settings
 /RUNNING_PID
 twitter4j.properties
-
+.cache-main
+.cache-tests
+.DS_Score

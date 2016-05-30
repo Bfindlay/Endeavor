@@ -1,8 +1,11 @@
 package controllers;
 
-import twitter.Search;
+import twitter.*;
 import play.data.DynamicForm;
 import play.data.Form;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -17,6 +20,9 @@ import views.html.*;
  * application's home page.
  */
 public class HomeController extends Controller {
+
+	List<Tweet> tweetList = new ArrayList<Tweet>();
+	ArrayList<Property> propertyList;
 	@Inject
 	private FormFactory formFactory;
 
@@ -27,13 +33,20 @@ public class HomeController extends Controller {
 	 * path of <code>/</code>.
 	 */
 	public Result index() {
-		return ok(index.render("Your new application is ready."));
+		double longitude = 0;
+		double latitude = 0;
+		String tweet = null;
+		propertyList = Property.getPropertyList();
+		return ok(index.render(propertyList));
 	}
 
 	public Result addQuery() {
 		DynamicForm requestData = formFactory.form().bindFromRequest();
 		String query = requestData.get("query");
-		System.out.println("Query is " + query.toString());
+		TwitterSearch twitterSearch = new TwitterSearch();
+		tweetList = twitterSearch.query(query);
+		// String testTweet = tweetList.get(0).getText();
+		// System.out.println(testTweet);
 		return redirect(routes.HomeController.index());
 
 	}
