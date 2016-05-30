@@ -2,8 +2,10 @@
  * This template takes a single argument, a String containing a
  * message to display.
  *@
-@(message: String)
+@(propertyList: List[twitter.Property])
 
+@import java.lang.Double; var latitude=0.0; var longitude=0.0;
+@import java.lang.String; var tweet="";
 <!DOCTYPE html>
 <html>
 
@@ -18,16 +20,19 @@
 	</head>
 
 	<body>
-	
+
+		
+
+
 	<div class="large-12 columns>
 		<div class="mapBox row">
 			<div class="searchBox row">
-			
+
 			<form action="@routes.HomeController.addQuery()" method="POST">
 				<input type="text" id="query" name="query" placeholder="search"></input>
 				<button type="submit" class="button round">Search</button>
 			</form>
-			</div> 
+			</div>
 					<div id="mapid"></div>
           <script>
           map = L.map('mapid').setView([0.8, 78.21], 1);
@@ -38,6 +43,47 @@
   	    		accessToken: 'pk.eyJ1IjoiZW5nMTgwNSIsImEiOiJjaW9icHpqdDEwNDhxdjZrcWJ1bmV5dmg5In0.ohzDeAzn8lbDncJ7_h4xgw'
   				}).addTo(map);
         </script>
+        
+			 @for(s <- propertyList){
+		@{
+        	latitude = {
+         		 s.getLatitude()
+        }
+        	longitude = {
+          		s.getLongitude()
+        }
+        	tweet = {
+        		s.getTweet()
+        		}
+        }
+       
+        
+        
+
+      <script>
+
+      vals = [@latitude, @longitude];
+      console.log(vals);
+      marker = L.marker(vals).addTo(map);
+      marker.bindPopup("<b>@tweet</b>");
+      window.locationArray.push(vals);
+      console.log(vals);
+
+      if (@latitude !== 0 || @longitude !== 0) {
+          latLong = [@latitude, @longitude];
+          circle = L.circle(latLong, 10, {
+            weight: 1,
+            color: "red",
+            fillColor: "cyan",
+            fillOpacity: 0.1
+          }).addTo(map);
+      }
+	</script>
+	}
+	
+	
+
+     
 
 			</div>
 
