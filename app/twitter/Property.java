@@ -1,10 +1,5 @@
 package twitter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
  *
  * @author Brett Findlay
@@ -16,9 +11,6 @@ public class Property {
 	private double latitude;
 	private double longitude;
 	private String country;
-	private static ArrayList<Property> propertyList = new ArrayList<Property>();
-	private Map<String, Integer> codeMap = new HashMap<String, Integer>();
-	public Map<String, ArrayList<String>> tweetAnalysis = new HashMap<String, ArrayList<String>>();
 
 	/**
 	 * Main constructor to create a property object containing the Latitude,
@@ -58,8 +50,6 @@ public class Property {
 		this.longitude = longitude;
 		this.country = country;
 
-		addTweetAnalysis(country, processString(tweet));
-
 	}
 
 	/**
@@ -88,35 +78,6 @@ public class Property {
 		this.longitude = 0;
 		this.country = "NA";
 
-	}
-
-	/**
-	 * wipes property list clear
-	 */
-	public void clearList() {
-		if (!propertyList.isEmpty()) {
-			propertyList.clear();
-		}
-
-	}
-
-	/**
-	 * Returns list of tweet properties
-	 *
-	 * @return List of Properties
-	 */
-	public static ArrayList<Property> getPropertyList() {
-
-		return propertyList;
-	}
-
-	/**
-	 * Adds a tweet property to the ArrayList
-	 *
-	 * @param tweetProperty
-	 */
-	public static void addPropertyToList(Property tweetProperty) {
-		propertyList.add(tweetProperty);
 	}
 
 	/**
@@ -193,89 +154,6 @@ public class Property {
 	 */
 	public String getCountry() {
 		return country;
-	}
-
-	/**
-	 * Returns a map containing all of the isoA2 codes available in the property
-	 * list as a key and sets value to the number of tweets within that isoA2
-	 * code
-	 * 
-	 * @return returns HashMap<CountryCode, numOccurrences>
-	 */
-	public Map<String, Integer> getCountryCodes() {
-
-		for (int i = 0; i < propertyList.size(); i++) {
-			String code = propertyList.get(i).getCountry();
-			int count = codeMap.containsKey(code) ? codeMap.get(code) : 0;
-			if (codeMap.containsKey(code)) {
-				codeMap.put(code, count + 1);
-			} else {
-				codeMap.put(code, 1);
-			}
-		}
-		return codeMap;
-	}
-
-	/**
-	 * Clears the map of Country codes for a new search, mainly used to wipe
-	 * geoJson layers from leaflet.js map
-	 */
-	public void clearCountryCodes() {
-		if (!codeMap.isEmpty()) {
-			codeMap.clear();
-		}
-	}
-
-	/**
-	 * Returns the number of tweets within a country using the isoA2 code as key
-	 * 
-	 * @param code
-	 *            String containing isoA2 code
-	 * @return number of tweets within a country
-	 */
-	public int getCountryCodesVal(String code) {
-
-		return codeMap.get(code);
-	}
-
-	/**
-	 * Returns a list containing tweets for a given country
-	 * 
-	 * @param code
-	 *            isoA2 code
-	 * @return Returns List<String>
-	 */
-	public ArrayList<String> getLocationTweetList(String code) {
-		return tweetAnalysis.get(code);
-	}
-
-	/**
-	 * Adds a Tweet to map based on the given country code and tweet String
-	 * 
-	 * @param code
-	 *            String containing country code
-	 * @param tweet
-	 *            String containing a tweet
-	 */
-	public void addTweetAnalysis(String code, String tweet) {
-
-		if (tweetAnalysis.containsKey(code)) {
-			tweetAnalysis.get(code).add(tweet);
-		} else {
-			ArrayList<String> list = new ArrayList<String>();
-			list.add(tweet);
-			// tweetAnalysis.put(code, list);
-		}
-	}
-
-	/**
-	 * Clears the map of Country tweets for a new search, mainly used to wipe
-	 * geoJson layers from leaflet.js map
-	 */
-	public void clearCountryTweets() {
-		if (!tweetAnalysis.isEmpty()) {
-			tweetAnalysis.clear();
-		}
 	}
 
 	/**

@@ -1,6 +1,6 @@
 package twitter;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import twitter4j.Query;
 import twitter4j.QueryResult;
@@ -12,7 +12,20 @@ import twitter4j.TwitterFactory;
 public class TwitterSearch {
 
 	private Twitter twitter;
-	private int maxTweets = 200;
+	private int maxTweets = 50;
+	private List<Property> propertyList = new ArrayList<Property>();
+
+	public List<Property> getPropertyList() {
+		return propertyList;
+	}
+
+	public void setPropertyList(List<Property> propertyList) {
+		this.propertyList = propertyList;
+	}
+
+	public void addPropertyToList(Property property) {
+		this.propertyList.add(property);
+	}
 
 	public void setMaxTweets(int maxTweets) {
 		this.maxTweets = maxTweets;
@@ -32,31 +45,27 @@ public class TwitterSearch {
 		return maxTweets;
 	}
 
-	public List<Tweet> query(String... keywords) {
-		// TODO process keywords to force them into basic words
+	public void query(String... keywords) {
+
 		String queryStr = String.join(" ", keywords);
 		Query query = new Query(queryStr);
 		query.count(maxTweets);
 		QueryResult result;
-		List<Tweet> fullTweets = new LinkedList<>();
 		try {
 			do {
 				result = twitter.search(query);
 				List<Status> tweets = result.getTweets();
 				for (Status tweet : tweets) {
 					Tweet t = new Tweet(tweet);
-					fullTweets.add(t);
-
+					Property tp = t.getInstanceProperty();
+					if (!(tp == null)) {
+						addPropertyToList(tp);
+					}
 				}
-			} while (fullTweets.size() < maxTweets && (query = result.nextQuery()) != null);
+			} while (getPropertyList().size() < maxTweets && (query = result.nextQuery()) != null);
 		} catch (TwitterException te) {
 
 		}
-
-		return fullTweets;
-	}
-
-	public static void main(String[] args) {
 
 	}
 

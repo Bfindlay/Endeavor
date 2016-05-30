@@ -9,7 +9,7 @@ public class Tweet {
 
 	public static final String UNKNOWN_COUNTRY = "NA";
 	public static final String UNKNOWN_LOCATION = "NA";
-
+	private Property tweetProperty;
 	private String text = "";
 	private String country = UNKNOWN_COUNTRY;
 	private String location = UNKNOWN_LOCATION;
@@ -36,9 +36,8 @@ public class Tweet {
 			 */
 			latitude = geoLoc.getLatitude();
 			longitude = geoLoc.getLongitude();
-			Property tweetProperty = new Property(text, latitude, longitude, countryCode);
-			Property.addPropertyToList(tweetProperty);
-
+			Property tp = new Property(text, latitude, longitude, countryCode);
+			setInstanceProperty(tp);
 		}
 
 		if (country == null)
@@ -46,6 +45,15 @@ public class Tweet {
 		if (location == null)
 			location = UNKNOWN_LOCATION;
 
+	}
+
+	public void setInstanceProperty(Property tweetProperty) {
+		this.tweetProperty = tweetProperty;
+	}
+
+	public Property getInstanceProperty() {
+
+		return tweetProperty;
 	}
 
 	public String getUsername() {

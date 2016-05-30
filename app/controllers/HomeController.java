@@ -22,6 +22,7 @@ import views.html.*;
 public class HomeController extends Controller {
 
 	List<Tweet> tweetList = new ArrayList<Tweet>();
+	List<Property> list = new ArrayList<Property>();
 	ArrayList<Property> propertyList;
 	@Inject
 	private FormFactory formFactory;
@@ -33,20 +34,16 @@ public class HomeController extends Controller {
 	 * path of <code>/</code>.
 	 */
 	public Result index() {
-		double longitude = 0;
-		double latitude = 0;
-		String tweet = null;
-		propertyList = Property.getPropertyList();
-		return ok(index.render(propertyList));
+
+		return ok(index.render(list));
 	}
 
 	public Result addQuery() {
 		DynamicForm requestData = formFactory.form().bindFromRequest();
 		String query = requestData.get("query");
 		TwitterSearch twitterSearch = new TwitterSearch();
-		tweetList = twitterSearch.query(query);
-		// String testTweet = tweetList.get(0).getText();
-		// System.out.println(testTweet);
+		twitterSearch.query(query);
+		list = twitterSearch.getPropertyList();
 		return redirect(routes.HomeController.index());
 
 	}

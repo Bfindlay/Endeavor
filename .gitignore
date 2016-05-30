@@ -10,3 +10,5 @@ twitter4j.properties
 .cache-main
 .cache-tests
 .DS_Score
+project.log
+
