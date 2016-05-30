@@ -1,4 +1,4 @@
-name := """endeaver"""
+name := """endeavor"""
 
 version := "1.0-SNAPSHOT"
 
