@@ -1,0 +1,15 @@
+.dislayColors{
+  margin: auto;
+}
+#mapid{
+	width:80vw;
+  	height:60vh;
+  	margin: auto;
+}
+.mapBox{
+	margin:auto;
+}
+.searchBox{
+	margin-top: 40px;
+	width:20vw;
+}

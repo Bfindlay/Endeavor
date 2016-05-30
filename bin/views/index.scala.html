@@ -1,0 +1,51 @@
+@*
+ * This template takes a single argument, a String containing a
+ * message to display.
+ *@
+@(message: String)
+
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/foundation.css")">
+		<link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/style.css")">
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    <script>L_PREFER_CANVAS = true;</script>
+		<title>Origins</title>
+	</head>
+
+	<body>
+	
+	<div class="large-12 columns>
+		<div class="mapBox row">
+			<div class="searchBox row">
+			
+			<form action="@routes.HomeController.addQuery()" method="POST">
+				<input type="text" id="query" name="query" placeholder="search"></input>
+				<button type="submit" class="button round">Search</button>
+			</form>
+			</div> 
+					<div id="mapid"></div>
+          <script>
+          map = L.map('mapid').setView([0.8, 78.21], 1);
+  				L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+  	    		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+  	    		maxZoom: 18,
+  	    		id: 'mapbox.streets',
+  	    		accessToken: 'pk.eyJ1IjoiZW5nMTgwNSIsImEiOiJjaW9icHpqdDEwNDhxdjZrcWJ1bmV5dmg5In0.ohzDeAzn8lbDncJ7_h4xgw'
+  				}).addTo(map);
+        </script>
+
+			</div>
+
+
+		</div>
+	</div>
+</div>
+
+
+	</body>
+</html>
