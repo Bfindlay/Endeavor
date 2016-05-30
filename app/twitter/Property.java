@@ -16,10 +16,9 @@ public class Property {
 	private double latitude;
 	private double longitude;
 	private String country;
-	public static int numTweets = -1;
 	private static ArrayList<Property> propertyList = new ArrayList<Property>();
-	private static Map<String, Integer> codeMap = new HashMap<String, Integer>();
-	public static Map<String, ArrayList<String>> tweetAnalysis = new HashMap<String, ArrayList<String>>();
+	private Map<String, Integer> codeMap = new HashMap<String, Integer>();
+	public Map<String, ArrayList<String>> tweetAnalysis = new HashMap<String, ArrayList<String>>();
 
 	/**
 	 * Main constructor to create a property object containing the Latitude,
@@ -92,18 +91,9 @@ public class Property {
 	}
 
 	/**
-	 * Method only used to pass value to render engine
-	 *
-	 * @return integer -1
-	 */
-	public static int getNumTweets() {
-		return numTweets;
-	}
-
-	/**
 	 * wipes property list clear
 	 */
-	public static void clearList() {
+	public void clearList() {
 		if (!propertyList.isEmpty()) {
 			propertyList.clear();
 		}
@@ -125,7 +115,7 @@ public class Property {
 	 *
 	 * @param tweetProperty
 	 */
-	public void addPropertyToList(Property tweetProperty) {
+	public static void addPropertyToList(Property tweetProperty) {
 		propertyList.add(tweetProperty);
 	}
 
@@ -212,7 +202,7 @@ public class Property {
 	 * 
 	 * @return returns HashMap<CountryCode, numOccurrences>
 	 */
-	public static Map<String, Integer> getCountryCodes() {
+	public Map<String, Integer> getCountryCodes() {
 
 		for (int i = 0; i < propertyList.size(); i++) {
 			String code = propertyList.get(i).getCountry();
@@ -230,7 +220,7 @@ public class Property {
 	 * Clears the map of Country codes for a new search, mainly used to wipe
 	 * geoJson layers from leaflet.js map
 	 */
-	public static void clearCountryCodes() {
+	public void clearCountryCodes() {
 		if (!codeMap.isEmpty()) {
 			codeMap.clear();
 		}
@@ -243,7 +233,7 @@ public class Property {
 	 *            String containing isoA2 code
 	 * @return number of tweets within a country
 	 */
-	public static int getCountryCodesVal(String code) {
+	public int getCountryCodesVal(String code) {
 
 		return codeMap.get(code);
 	}
@@ -255,7 +245,7 @@ public class Property {
 	 *            isoA2 code
 	 * @return Returns List<String>
 	 */
-	public static ArrayList<String> getLocationTweetList(String code) {
+	public ArrayList<String> getLocationTweetList(String code) {
 		return tweetAnalysis.get(code);
 	}
 
@@ -267,14 +257,14 @@ public class Property {
 	 * @param tweet
 	 *            String containing a tweet
 	 */
-	public static void addTweetAnalysis(String code, String tweet) {
+	public void addTweetAnalysis(String code, String tweet) {
 
 		if (tweetAnalysis.containsKey(code)) {
 			tweetAnalysis.get(code).add(tweet);
 		} else {
 			ArrayList<String> list = new ArrayList<String>();
 			list.add(tweet);
-			tweetAnalysis.put(code, list);
+			// tweetAnalysis.put(code, list);
 		}
 	}
 
@@ -282,7 +272,7 @@ public class Property {
 	 * Clears the map of Country tweets for a new search, mainly used to wipe
 	 * geoJson layers from leaflet.js map
 	 */
-	public static void clearCountryTweets() {
+	public void clearCountryTweets() {
 		if (!tweetAnalysis.isEmpty()) {
 			tweetAnalysis.clear();
 		}

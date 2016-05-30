@@ -37,7 +37,7 @@ public class Tweet {
 			latitude = geoLoc.getLatitude();
 			longitude = geoLoc.getLongitude();
 			Property tweetProperty = new Property(text, latitude, longitude, countryCode);
-			tweetProperty.addPropertyToList(tweetProperty);
+			Property.addPropertyToList(tweetProperty);
 
 		}
 
