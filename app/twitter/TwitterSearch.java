@@ -64,7 +64,6 @@ public class TwitterSearch {
 				}
 			} while (getPropertyList().size() < maxTweets && (query = result.nextQuery()) != null);
 		} catch (TwitterException te) {
-
 		}
 
 	}
