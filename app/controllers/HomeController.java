@@ -2,14 +2,12 @@ package controllers;
 
 import twitter.*;
 import play.data.DynamicForm;
-import play.data.Form;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
-import play.data.*;
 import play.data.FormFactory;
 import play.mvc.*;
 
@@ -36,6 +34,20 @@ public class HomeController extends Controller {
 	public Result index() {
 
 		return ok(index.render(list));
+	}
+
+	public Result randomQuery() {
+		System.out.println("Button pressed, this method will excecute");
+		TwitterStream stream = new TwitterStream();
+		stream.search();
+		list = stream.getPropertyList();
+		try {
+			Thread.sleep(4000);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return redirect(routes.HomeController.index());
 	}
 
 	public Result addQuery() {
