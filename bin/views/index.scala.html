@@ -1,100 +1,125 @@
 @*
- * This template takes a single argument, a String containing a
- * message to display.
- *@
+* This template takes a single argument, a String containing a
+* message to display.
+*@
 @(propertyList: List[twitter.Property])
-
 @import java.lang.Double; var latitude=0.0; var longitude=0.0;
 @import java.lang.String; var tweet="";
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/foundation.css")">
 		<link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/style.css")">
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
-    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
-    <script>L_PREFER_CANVAS = true;</script>
+		<script src="@routes.Assets.versioned("javascripts/data.js")" type="text/javascript"></script>
+		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+		<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+		<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+		<script>L_PREFER_CANVAS = true;</script>
 		<title>Origins</title>
 	</head>
-
 	<body>
-
+		<div class="large-12 columns">
+		<div class="search">
 		
-
-
-	<div class="large-12 columns>
-		<div class="mapBox row">
-			<div class="searchBox row">
-
-			<form action="@routes.HomeController.addQuery()" method="POST">
-				<input type="text" id="query" name="query" placeholder="search"></input>
-				<button type="submit" class="button round">Search</button>
-			</form>
-			<form action="@routes.HomeController.randomQuery()" method="POST">
-				<button class="button round"> Random Search</button>
+				
+				<input type="text" id="query" name="query" class="search-bar" placeholder="Search..."/>
+				<div class="large-6 columns text-right">
+				<div class="row">
+				<form action="@routes.HomeController.addQuery()" method="POST">
+				<div class="search-nav">
+					<div class="search-button">
+						<button type="submit">Search</button>
+					</div>
+				</div>
 			</form>
 			</div>
-					<div id="mapid"></div>
-          <script>
-          map = L.map('mapid').setView([0.8, 78.21], 1);
-  				L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-  	    		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-  	    		maxZoom: 18,
-  	    		id: 'mapbox.streets',
-  	    		accessToken: 'pk.eyJ1IjoiZW5nMTgwNSIsImEiOiJjaW9icHpqdDEwNDhxdjZrcWJ1bmV5dmg5In0.ohzDeAzn8lbDncJ7_h4xgw'
-  				}).addTo(map);
-        </script>
-        
-			 @for(s <- propertyList){
-		@{
-        	latitude = {
-         		 s.getLatitude()
-        }
-        	longitude = {
-          		s.getLongitude()
-        }
-        	tweet = {
-        		s.getTweet()
-        		}
-        }
-       
-        
-        
-
-      <script>
-
-      vals = [@latitude, @longitude];
-      console.log(vals);
-      marker = L.marker(vals).addTo(map);
-      marker.bindPopup("<b>@tweet</b>");
-      window.locationArray.push(vals);
-      console.log(vals);
-
-      if (@latitude !== 0 || @longitude !== 0) {
-          latLong = [@latitude, @longitude];
-          circle = L.circle(latLong, 10, {
-            weight: 1,
-            color: "red",
-            fillColor: "cyan",
-            fillOpacity: 0.1
-          }).addTo(map);
-      }
-	</script>
-	}
-	
-	
-
-     
-
+			</div
+			<div class="large-6 columns ">
+				<div class="row">
+					<form action="@routes.HomeController.randomQuery()" method="POST">
+						<button style="float:left"type="submit">Random</button>
+					</form>
+				</div>
 			</div>
-
-
+			</div
 		</div>
-	</div>
-</div>
+		<div class="row">
+			<div class="large-12 columns text-center container">
+			
+				<div class="map-container" id="mapid"></div>
+				<img align="middle" id="mapImg" src="@routes.Assets.versioned("../images/bg-image.png")">
+			</div>
+		</div>
+				
+	
+		
+			<script>
+			map = L.map('mapid').setView([0.8, 78.21], 1);
+			L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+				attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+				maxZoom: 18,
+				id: 'mapbox.streets',
+				accessToken: 'pk.eyJ1IjoiZW5nMTgwNSIsImEiOiJjaW9icHpqdDEwNDhxdjZrcWJ1bmV5dmg5In0.ohzDeAzn8lbDncJ7_h4xgw'
+			}).addTo(map);	
+			</script>
+			@for(s <- propertyList){
+				@{
+					latitude = {s.getLatitude()}
+					longitude = {s.getLongitude()}
+					tweet = {s.getTweet()}
+				}
+			<script>
+			vals = [@latitude, @longitude];
+			console.log(vals);
+			marker = L.marker(vals).addTo(map);
+			marker.bindPopup("<b>@tweet</b>");
+			window.locationArray.push(vals);
+			console.log(vals);
 
+			if (@latitude !== 0 || @longitude !== 0) {
+			    latLong = [@latitude, @longitude];
+			    circle = L.circle(latLong, 10, {
+			        weight: 1,
+			        color: "red",
+			        fillColor: "cyan",
+			        fillOpacity: 0.1
+			    }).addTo(map);
+			}	
+			</script>
+			}
+			<script>
+			function locateUser() {
 
+			    this.map.locate({
+			            setView: true
+			        })
+			        .on('locationfound', function(e) {
+			            userGeo = [e.latitude, e.longitude];
+			            var distFormInput = (document.getElementById("distance").value * 1000)
+			            if ((distFormInput) == "" || distFormInput == null) {
+			                distFormInput = 500;
+			            }
+			            console.log(userGeo);
+			            var marker = L.marker([e.latitude, e.longitude]).bindPopup('You are here');
+			            var circle = L.circle([e.latitude, e.longitude], distFormInput, {
+			                weight: 1,
+			                color: 'red',
+			                fillColor: 'blue',
+			                fillOpacity: 0.1
+			            });
+
+			            map.addLayer(marker);
+			            console.log("runnin locateUser");
+			            isInCircleRadius(circle);
+			            map.addLayer(circle);
+
+			        })
+			        .on('locationerror', function(e) {
+			            console.log(e);
+			            alert("Location access denied.");
+			        });
+
+			}	
+			</script>
 	</body>
 </html>
