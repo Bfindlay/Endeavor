@@ -12,3 +12,4 @@ libraryDependencies ++= Seq(
   javaWs
 )
 libraryDependencies += "org.twitter4j" % "twitter4j-core" % "4.0.4"
+libraryDependencies += "org.twitter4j" % "twitter4j-stream" % "4.0.4"

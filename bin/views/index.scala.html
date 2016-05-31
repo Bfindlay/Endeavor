@@ -32,6 +32,9 @@
 				<input type="text" id="query" name="query" placeholder="search"></input>
 				<button type="submit" class="button round">Search</button>
 			</form>
+			<form action="@routes.HomeController.randomQuery()" method="POST">
+				<button class="button round"> Random Search</button>
+			</form>
 			</div>
 					<div id="mapid"></div>
           <script>
